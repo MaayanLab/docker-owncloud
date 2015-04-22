@@ -22,8 +22,8 @@ RUN sudo pacman -S --noconfirm --needed owncloud-app-contacts
 RUN sudo pacman -S --noconfirm --needed owncloud-app-documents
 
 # enable large file uploads
-RUN sudo sed -i 's,php_value upload_max_filesize 513M,php_value upload_max_filesize 30G,g' /usr/share/webapps/owncloud/.htaccess
-RUN sudo sed -i 's,php_value post_max_size 513M,php_value post_max_size 30G,g' /usr/share/webapps/owncloud/.htaccess
+RUN sudo sed -i 's,php_value upload_max_filesize 513M,php_value upload_max_filesize 500G,g' /usr/share/webapps/owncloud/.htaccess
+RUN sudo sed -i 's,php_value post_max_size 513M,php_value post_max_size 500G,g' /usr/share/webapps/owncloud/.htaccess
 RUN sudo sed -i 's,<IfModule mod_php5.c>,<IfModule mod_php5.c>\nphp_value output_buffering Off,g' /usr/share/webapps/owncloud/.htaccess
 
 # setup Apache for owncloud
@@ -32,5 +32,5 @@ RUN sudo sed -i 's,Options Indexes FollowSymLinks,Options -Indexes,g' /etc/httpd
 RUN sudo sed -i '$a Include conf/extra/owncloud.conf' /etc/httpd/conf/httpd.conf
 RUN sudo chown -R http:http /usr/share/webapps/owncloud/
 
-# start apache and mysql
-CMD cd '/usr'; sudo /usr/bin/mysqld_safe --datadir='/var/lib/mysql'& sudo apachectl -DFOREGROUND
+# start apache
+CMD sudo apachectl -DFOREGROUND
